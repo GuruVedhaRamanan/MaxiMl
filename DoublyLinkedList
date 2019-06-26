@@ -1,0 +1,166 @@
+import java.io.*;
+import java.util.*;
+public class DoubleQueueLinked {
+	 private DequeNode first,last;
+	 public class DequeNode
+     {
+    	 DequeNode prev;
+    	 Object data;
+    	 DequeNode next;
+    	 DequeNode(char item)
+    	 {
+    		 data = item;
+    	 }
+     }
+     private int count;
+     public void addFirst(char item)
+     {
+    	 if(isEmpty())
+    	 {
+    		 first = last = new DequeNode(item);
+    	 }
+    	 else
+    	 {
+    		DequeNode p = new DequeNode(item);
+    		first.prev =p;
+    		p.next = first;
+    		 first = p;
+    	 }
+    	 
+    	 count++;
+       }
+     public void addLast(char item)
+     {
+        if(isEmpty())
+    	 {
+    		 first = last = new DequeNode(item);
+    	 }
+    	 else
+    	 {
+    		 DequeNode p = new DequeNode(item);
+    		 last.next = p;
+    		 p.prev = last;
+    		 last = p;
+    	 }
+    	 
+    	 count++;
+       }
+     public Object removeFirst()
+     {
+    	 if(isEmpty())
+    	 {
+    		 System.out.println("Deque is empty");
+    		 
+    		 return null;
+    	 }
+    	 
+    	 else
+    	 {
+    		 	Object item = first.data;
+    		 	
+    		 	first = first.next;
+    		 	
+    		 	first.prev = null;
+    		 	
+    		 	count--;
+    		 	
+    		 	return item;
+    	 }
+     }
+     public Object removeLast()
+     {
+    	 if(isEmpty())
+    	 {
+    		 System.out.println("Deque is empty");
+    		 
+    		 return null;
+    	 }
+    	 
+    	 else
+    	 {
+    		 	Object item = last.data;
+    		 	
+    		 	last = last.prev;
+    		 	
+    		 	last.next = null;
+    		 	
+    		 	count--;
+    		 	
+    		 	return item;
+    	 }
+     }
+     public void display()
+     {
+    	 DequeNode p = first;
+    	 
+    	 while(p!= null)
+    	 {
+    		 System.out.println(p.data);
+    		 
+    		 p = p.next;
+    	 }
+     }
+     private boolean isEmpty() {
+		
+		return count == 0;
+	}
+	public static void main(String[] args)
+	{
+		DoubleQueueLinked lk = new DoubleQueueLinked();
+		lk.addFirst('a');
+		lk.addLast('b');
+		lk.addFirst('c');
+		lk.addLast('d');
+		lk.delete('d');
+		lk.display();
+		int x = 2;
+		int y = ++x*++x;
+		System.out.println(y);
+	}
+	private void delete(char c) 
+	{
+		DequeNode ab = find(c);
+		if(ab!=null) 
+		{
+			if((char)first.data == c)
+			{
+				first = first.next;
+			
+				first.prev =null;
+				return;
+			}
+			if((char)last.data == c)
+			{
+				last = last.prev;
+			
+				last.next =null;
+				return;
+			}
+			if(ab.prev!=null)
+			{
+				ab.next.prev = ab.prev;
+			}
+			if(ab.next!=null)
+			{
+				ab.prev.next = ab.next; 
+			}
+			return;
+		}
+		else
+		{
+			System.out.println("Element is not in the list");
+		}
+	}
+	private DequeNode find(char c) {
+		DequeNode f= first;
+		while(f!=null)
+		{
+			if((char)f.data == c)
+			{
+				return f;
+			}
+			f= f.next;
+		}
+		return null;
+	}
+}
